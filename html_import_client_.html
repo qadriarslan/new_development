@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <link rel="import" href="html_import_template.html"
+  </head>
+  <body>
+    <div id="host">
+      <span class="email">qadri@arcesium.com</span>
+      <span class="name">Arslan Qadri</span>
+    </div>
+    <script>
+      var link = document.querySelector('link[rel="import"]');
+      var template = link.import.querySelector('template');
+      var template = importDoc.querySelector("#htmlImportTemplate");
+      document.querySelector("#host").createShadowRoot().appendChild(document.importNode(template.content, true));
+    </script>
+  </body>
+</html>

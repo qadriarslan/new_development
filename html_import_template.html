@@ -1,0 +1,38 @@
+<template id="htmlImportTemplate">
+  <div class="outer">
+    <span>Custom Element</span>
+    <div class="inner">
+      Name: <content select=".name"></content>
+    </div>
+    <div class="inner">
+      E-Mail: <content select=".email"></content>
+    </div>
+  </div>
+  <style>
+    .outer {
+      background-color: red;
+      color: blue;
+      padding-top: 20px;
+      border-radius: 15px;
+      width: 240px;
+      height: 150px;
+      float: center;
+    }
+    .outer > span {
+      background-color: yellow;
+      margin-left: 30px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .inner {
+      background-color: blue;
+      color: white;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      height: 30px;
+      margin: 10px;
+    }
+  </style>
+</template>
