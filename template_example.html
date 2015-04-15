@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+    <template id="sampleTemplate">
+      <div class="myBox">
+        Welcome <div class="name">Arslan</div>
+        <div class="message">Stay for <span>0</span> days.</div>
+      </div>
+      <style>
+        .myBox {
+          background-color: red;
+          width: 200px;
+          height: 150px;
+          padding: 20px;
+        }
+        .name {
+          background-color: white;
+          height: 30px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+        .message {
+          background-color: red;
+          height: 30px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+      </style>
+    </template>
+    <script>
+      function callMe() {
+        var templateContent = document.querySelector('#sampleTemplate').content;
+        var span = templateContent.querySelector('span');
+        span.textContent = parseInt(span.textContent) + 1;
+        document.body.querySelector('div').appendChild(document.importNode(templateContent, true));
+      }
+    </script>
+	</head>
+	<body>
+    Click the button!!
+    <div id="container"></div>
+    <button onclick="callMe()">Click Me</button>
+	</body>
+</html>

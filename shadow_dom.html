@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+    <template id="sampleTemplate">
+      <div style="background: purple; padding: 1em;">
+        <div style="color: red;">
+          <content select=".first"></content>
+        </div>
+        <div style="color: yellow;">
+          <content select="div"></content>
+        </div>
+        <div style="color: blue;">
+          <content select=".email"></content>
+        </div>
+      </div>
+    </template>
+	</head>
+	<body>
+    <div id="nameTag">
+      <div class="first">Bob</div>
+      <div>B. Love</div>
+      <div class="email">bob@</div>
+    </div>
+    <script>
+      var shadow = document.querySelector('#nameTag').createShadowRoot();
+      var templateContent = document.querySelector('#sampleTemplate').content;
+      shadow.appendChild(document.importNode(templateContent, true));
+    </script>
+	</body>
+</html>

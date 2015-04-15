@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+    <style>
+      app-panel {
+        display: flex;
+      }
+      [is="x-item"] {
+        transition: opacity 400ms ease-in-out;
+        opacity: 0.3;
+        flex: 1;
+        text-align: center;
+        border-radius: 50%;
+      }
+      [is="x-item"]:hover {
+        opacity: 1.0;
+        background: rgb(255, 0, 255);
+        color: white;
+      }
+      app-panel > [is="x-item"] {
+        padding: 5px;
+        list-style: none;
+        margin: 0 7px;
+      }
+    </style>
+	</head>
+	<body>
+    <div width="30%">
+      <app-panel>
+        <li is="x-item">Do</li>
+        <li is="x-item">Re</li>
+        <li is="x-item">Mi</li>
+      </app-panel>
+    </div>
+    <script>
+      var itemProto = Object.create(HTMLElement.prototype);
+      document.registerElement("x-item", {prototype: itemProto, extends: "li"});
+      
+      var panelProto = Object.create(HTMLElement.prototype);
+      document.registerElement("app-panel", {prototype: panelProto});
+    </script>
+	</body>
+</html>
