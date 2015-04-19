@@ -1,0 +1,29 @@
+<!Doctype html>
+<html>
+  <head>
+    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <link rel="import" href="html_import_template.html">
+  </head>
+  <body>
+    <div id="host">
+      <span class="email">qadri@arcesium.com</span>
+      <span class="name">Arslan Qadri</span>
+    </div>
+    <script>
+      var link = document.querySelector('link[rel="import"]');
+      if('import' in document.createElement('link')) {
+        addTemplateToDoc(link);
+      } else {
+        link.addEventListener('load', function(e) {
+          addTemplateToDoc(link);
+        });
+      }
+      function addTemplateToDoc(link) {
+        var importedDoc = link.import;
+        var template = importedDoc.querySelector('#htmlImportTemplate');
+        var clone = document.importNode(template.content, true);
+        document.querySelector("#host").createShadowRoot().appendChild(clone);
+      }
+    </script>
+  </body>
+</html>
