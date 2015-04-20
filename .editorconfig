@@ -1,0 +1,21 @@
+#root editor config
+root = true
+
+#common settings for all file formats
+[*]
+charset = utf-8
+
+end_of_line = lf
+insert_final_newline = false
+
+trim_trailing_whitespace = true
+
+indent_style = space
+
+#settings for js html css file
+[*.{html,js,json,css,less,sass}]
+indent_size = 2
+
+#settings for java files
+[*.java]
+indent_size = 4

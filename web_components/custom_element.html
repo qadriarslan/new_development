@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+  <head>
+    <template id="customTemplate">
+      <p>Hey
+        <content></content>! What's up?</p>
+      <style>
+      p {
+        color: red;
+      }
+      </style>
+    </template>
+  </head>
+
+  <body>
+    <div>
+      This is custom elements demo!!
+    </div>
+    <my-custom-element>Arslan</my-custom-element>
+    <script>
+    var proto = Object.create(HTMLElement.prototype, {
+      createdCallback: {
+        value: function() {
+          var template = document.querySelector("#customTemplate").content;
+          var clone = document.importNode(template, true);
+          this.createShadowRoot().appendChild(clone);
+          this.addEventListener('click', function() {
+            alert('This is from \'' + this.textContent + '\'  <my-custom-element>.');
+          });
+        }
+      }
+    });
+    document.registerElement("my-custom-element", {
+      prototype: proto
+    });
+    var el = document.createElement("my-custom-element");
+    el.textContent = "Mehak";
+    document.querySelector("div").appendChild(el);
+    </script>
+  </body>
+
+</html>
