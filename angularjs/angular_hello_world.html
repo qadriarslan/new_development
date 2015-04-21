@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+  <head>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="angular_hello_world.js"></script>
+    <style>
+    table,
+    th,
+    td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+      padding: 5px;
+    }
+    
+    table tr:nth-child(odd) {
+      background-color: #f1f1f1;
+    }
+    
+    table tr:nth-child(even) {
+      background-color: #ffffff;
+    }
+    </style>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <div ng-app="myApp" ng-controller="myController" class="container">
+      <b>First Name:</b>
+      <input type="text" ng-model="personsList[0].firstName">
+      <br>
+      <b>Last Name:</b>
+      <input type="text" ng-model="personsList[0].lastName">
+      <br> Full Name: {{personsList[0].fullName() | lowercase}}
+      <br><br>
+      <b>Display Switch</b><input type="checkbox" ng-model="buttonSwitch">
+      <input class="btn" type="button" ng-click="toggle()" ng-disabled="buttonSwitch" value="Display Switch">
+      <br><br>
+      <div class="form-group" ng-hide="displaySwitch">
+        <b>Person Filter: </b>
+        <input type="text" ng-model="personFilter"><br><br>
+        <table class="table table-striped">
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+          </tr>
+          <tr ng-repeat="person in personsList | filter:personFilter | orderBy:'firstName'">
+            <td>{{person.firstName}}</td>
+            <td>{{person.lastName}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="form-group" ng-show="displaySwitch">
+        <b>User Filter: </b>
+        <input type="text" ng-model="userFilter"><br><br>
+        <table class="table table-striped">
+          <tr>
+            <th>Name</th>
+            <th>City</th>
+            <th>Country</th>
+          </tr>
+          <tr ng-repeat="user in usersList | filter:userFilter | orderBy:'Country'">
+            <td>{{user.Name}}</td>
+            <td>{{user.City}}</td>
+            <td>{{user.Country}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+
+</html>
