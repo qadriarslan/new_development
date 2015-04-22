@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="angular_form_bootstrap.js"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  </head>
+
+  <body ng-app="myApp" ng-controller="myController">
+    <div class="container">
+      <h2>Users</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Edit</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+          </tr>
+        </thead>
+        <tr ng-repeat="person in personsList | orderBy:'firstName'">
+          <td>
+            <button class="btn" ng-click="editUser(person.id)">
+              <span class="glyphicon glyphicon-pencil"></span> Edit
+          </td>
+          <td>{{person.firstName}}</td>
+          <td>{{person.lastName}}</td>
+        </tr>
+      </table>
+
+      <hr>
+      <button class="btn btn-success" ng-click="editUser('new')" ng-disabled="!edit">
+        <span class="glyphicon glyphicon-user"></span> Create New User
+      </button>
+      <hr>
+
+      <h3 ng-hide="edit">Create New User:</h3>
+      <h3 ng-show="edit">Edit User:</h3>
+
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">First Name:</label>
+          <div class="col-sm-10">
+            <input type="text" ng-model="fName" placeholder="First Name" ng-disabled="edit">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Last Name:</label>
+          <div class="col-sm-10">
+            <input type="text" ng-model="lName" placeholder="Last Name" ng-disabled="edit">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Password:</label>
+          <div class="col-sm-10">
+            <input type="password" ng-model="pass" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Repeat Password:</label>
+          <div class="col-sm-10">
+            <input type="password" ng-model="rPass" placeholder="Repeat Password">
+          </div>
+        </div>
+      </form>
+      <hr>
+      <button class="btn btn-success" ng-disabled="error||incomplete" ng-click="saveUser()">
+        <span class="glyphicon glyphicon-save"></span> Save Changes
+      </button>
+    </div>
+  </body>
+
+</html>
