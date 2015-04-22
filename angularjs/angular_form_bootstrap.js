@@ -77,4 +77,4 @@ app.controller('myController', function($scope) {
       $scope.incomplete = true;
     }
   };
-})
+});
