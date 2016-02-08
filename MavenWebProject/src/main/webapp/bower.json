@@ -1,0 +1,23 @@
+{
+  "name": "mavenwebproject",
+  "description": "Maven Web Project",
+  "main": "index.js",
+  "authors": [
+    "Arslan Qadri"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/qadriarslan/web_development",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "slickgrid": "~2.1.0"
+  }
+}

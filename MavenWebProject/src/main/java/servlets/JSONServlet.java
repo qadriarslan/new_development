@@ -20,36 +20,30 @@ public class JSONServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public JSONServlet() {
-		super();
-	}
-
-	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		JSONArray addresses = new JSONArray();
-		for (int i = 0; i < 10; i++) {
-			JSONObject address = new JSONObject();
-			address.put("CustomerName", "Decepticons" + i);
-			address.put("AccountId", "1999" + i);
-			address.put("SiteId", "1888" + i);
-			address.put("Number", "7" + i);
-			address.put("Building", "StarScream Skyscraper" + i);
-			address.put("Street", "Devestator Avenue" + i);
-			address.put("City", "Megatron City" + i);
-			address.put("ZipCode", "ZZ00 XX1" + i);
-			address.put("Country", "CyberTron" + i);
-			addresses.add(address);
-		}
+			HttpServletResponse response) throws ServletException, IOException {		
+		int noOfRecords = Integer.parseInt(request.getParameter("size"));
+		
+		JSONArray dataArray = new JSONArray();
+		for (int i = 0; i < noOfRecords; i++) {
+			JSONObject data = new JSONObject();
+			data.put("id", i + 1);
+			data.put("title", "Task " + i);
+			data.put("duration", "5 days");
+			data.put("percentComplete", Math.round(Math.random() * 100));
+			data.put("start", "01/01/2009");
+			data.put("finish", "01/05/2009");
+			data.put("effortDriven", (i % 5 == 0));
+			dataArray.add(data);
+	    }
 
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
-		out.print(addresses);
+		out.print(dataArray);
 	}
 
 	/**
@@ -60,5 +54,4 @@ public class JSONServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }
