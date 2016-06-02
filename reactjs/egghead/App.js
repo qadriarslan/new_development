@@ -1,50 +1,59 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Widget = (props) => {
-	return (
-		<div>
-			<b>Set Prop1: </b><input type="text"
-				value={props.prop1}
-				onChange={props.update} />
-			<h1>Prop1: {props.prop1}</h1>
-		</div>
-	);
+class Slider extends React.Component {
+	render() {
+		return (
+			<input type="range"
+				min="0"
+				max="255"
+				value={this.props.value}
+				onChange={this.props.update} />
+		);
+	}
 }
 
 class App extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			state1: 'Default Value',
-			state2: 10
+			red: 0,
+			green: 0,
+			blue: 0
 		};
+		this.update = this.update.bind(this);
 	}
-	updateState1(e) {
+	update(e) {
 		this.setState({
-			state1: e.target.value
+			red: ReactDOM.findDOMNode(this.refs.red).value,
+			green: ReactDOM.findDOMNode(this.refs.green).value,
+			blue: ReactDOM.findDOMNode(this.refs.blue).value
 		})
 	}
 	render() {
 		return (
 			<div>
-				<Widget prop1={this.state.state1}
-					update={this.updateState1.bind(this)} />
-				<Widget prop1={this.state.state1}
-					update={this.updateState1.bind(this)} />
-				<Widget prop1={this.state.state1}
-					update={this.updateState1.bind(this)} />
-				<b>Set State1: </b><input type="text"
-					value={this.state.state1}
-					onChange={this.updateState1.bind(this)} />
-				<h1>State1: {this.state.state1}</h1>
+				<Slider ref="red"
+					value={this.state.red}
+					update={this.update} />
+				{this.state.red}
+				<br/>
+				<Slider ref="green"
+					value={this.state.green}
+					update={this.update} />
+				{this.state.green}
+				<br/>
+				<Slider ref="blue"
+					value={this.state.blue}
+					update={this.update} />
+				{this.state.blue}
 			</div>
 		);
 	}
 }
 
 ReactDOM.render(
-	<App prop1='My life, my rules!!' prop2={100} />,
+	<App />,
 	document.getElementById('app')
 );
 export default App
