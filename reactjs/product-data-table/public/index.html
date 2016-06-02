@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Product Data Table</title>
+    <!-- Not present in the tutorial. Just for basic styling. -->
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <!--<script type="text/babel" src="scripts/example.js"></script>-->
+    <script type="text/babel">
+      var products = [
+        {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
+        {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"},
+        {category: "Sporting Goods", price: "$29.99", stocked: false, name: "Basketball"},
+        {category: "Electronics", price: "$99.99", stocked: true, name: "iPod Touch"},
+        {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
+        {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
+      ];
+
+      var FilterableProductTable = React.createClass({
+        getInitialState: function() {
+          return {
+            filterText: '',
+            inStockOnly: false
+          };
+        },
+        handleUserInput: function(filterText, inStockOnly) {
+          this.setState({
+            filterText: filterText,
+            inStockOnly: inStockOnly
+          });
+        },
+        render: function() {
+          return(
+            <div>
+              <SearchBar
+                filterText={this.state.filterText}
+                inStockOnly={this.state.inStockOnly}
+                onUserInput={this.handleUserInput}
+              />
+              <ProductTable 
+                products={this.props.products} 
+                filterText={this.state.filterText} 
+                inStockOnly={this.state.inStockOnly}
+              />
+            </div>
+          );
+        }
+      });
+
+      var SearchBar = React.createClass({
+        handleChange: function() {
+          this.props.onUserInput(this.refs.filterTextInput.value, this.refs.inStockOnlyInput.checked);
+        },
+        render: function() {
+          return(
+            <form>
+              <input 
+                type="text" 
+                placeholder="Search.."
+                ref="filterTextInput"
+                value={this.props.filterText}
+                onChange={this.handleChange}
+              />
+              <p>
+                <input 
+                  type="checkbox"
+                  ref="inStockOnlyInput"
+                  checked={this.props.inStockOnly}
+                  onChange={this.handleChange}
+                />
+                Only show products in stock.
+              </p>
+            </form>
+          );
+        }
+      });
+
+      var ProductTable = React.createClass({
+        render: function() {
+          // Create a category wise hashmap of products
+          var productMap = {};
+          this.props.products.forEach(function(product) {
+            if((product.name.indexOf(this.props.filterText) === -1) || (!product.stocked && this.props.inStockOnly)) {
+              return;
+            }
+            var categoryArray = product.category in productMap ? productMap[product.category] : [];
+            categoryArray.push(product);
+            productMap[product.category] = categoryArray;
+          }.bind(this));
+
+          var rows = [];
+          for (var category in productMap) {
+            if (!productMap.hasOwnProperty(category)) {
+                continue;
+            }
+            rows.push(<ProductCategoryRow category={category} key={category}/>)
+            
+            productMap[category].forEach(function(product) {
+              return(
+                rows.push(<ProductRow product={product} key={product.name} />)
+              );
+            });
+          }
+          return(
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows}
+              </tbody>
+            </table>
+          );
+        }
+      });
+
+      var ProductCategoryRow = React.createClass({
+        render: function() {
+          return(
+            <tr>
+              <th colSpan="2">{this.props.category}</th>
+            </tr>
+          );
+        }
+      });
+
+      var ProductRow = React.createClass({
+        render: function() {
+          var name = this.props.product.stocked ?
+            this.props.product.name :
+            <span style={{color: 'red'}}>
+              {this.props.product.name}
+            </span>;
+          return(
+            <tr>
+              <td>{name}</td>
+              <td>{this.props.product.price}</td>
+            </tr>
+          );
+        }
+      });
+
+      ReactDOM.render(
+        <FilterableProductTable products={products} />, document.getElementById('content')
+      );
+    </script>
+  </body>
+</html>
