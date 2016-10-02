@@ -1,7 +1,7 @@
-function greeting(user) {
+function greeting(user : string) {
     return 'Hello - ' + user;
 }
 
 var user = 'Arslan Qadri';
 
-document.body.innerHTML = greeting(user);
+console.log(greeting(user));
