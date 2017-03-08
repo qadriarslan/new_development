@@ -1,0 +1,15 @@
+Webpack must:
+https://tylermcginnis.com/react-js-tutorial-1-5-utilizing-webpack-and-babel-to-build-a-react-js-app/
+https://medium.com/@rajaraodv/webpack-the-confusing-parts-58712f8fcad9#.cl2mleigy
+
+Basics of JS jargons:
+https://medium.freecodecamp.com/javascript-modules-a-beginner-s-guide-783f7d7a5fcc#.eti55lpdw
+
+React:
+https://facebook.github.io/react/docs/installation.html
+
+Redux:
+https://egghead.io/courses/getting-started-with-redux
+https://reactjs.co/#basic-preface
+http://redux.js.org/
+https://egghead.io/instructors/dan-abramov?order=ASC
