@@ -26,29 +26,23 @@
 
       var FilterableProductTable = React.createClass({
         getInitialState: function() {
-          return {
-            filterText: '',
-            inStockOnly: false
-          };
+          return ({'filterText': '', 'isStockedOnly': false});
         },
-        handleUserInput: function(filterText, inStockOnly) {
-          this.setState({
-            filterText: filterText,
-            inStockOnly: inStockOnly
-          });
+        handleChange: function(filterText, isStockedOnly) {
+          this.setState({'filterText': filterText, 'isStockedOnly': isStockedOnly});
         },
         render: function() {
-          return(
+          return (
             <div>
               <SearchBar
                 filterText={this.state.filterText}
-                inStockOnly={this.state.inStockOnly}
-                onUserInput={this.handleUserInput}
+                isStockedOnly={this.state.isStockedOnly}
+                onFilterChange={this.handleChange}
               />
-              <ProductTable 
-                products={this.props.products} 
-                filterText={this.state.filterText} 
-                inStockOnly={this.state.inStockOnly}
+              <ProductTable
+                products={this.props.products}
+                filterText={this.state.filterText}
+                isStockedOnly={this.state.isStockedOnly}
               />
             </div>
           );
@@ -57,26 +51,26 @@
 
       var SearchBar = React.createClass({
         handleChange: function() {
-          this.props.onUserInput(this.refs.filterTextInput.value, this.refs.inStockOnlyInput.checked);
+          this.props.onFilterChange(this.refs.filterTextInput.value, this.refs.inStockOnlyInput.checked);
         },
         render: function() {
-          return(
+          return (
             <form>
-              <input 
-                type="text" 
-                placeholder="Search.."
+              <input
+                type="text"
                 ref="filterTextInput"
+                placeholder="Search..."
                 value={this.props.filterText}
                 onChange={this.handleChange}
               />
               <p>
-                <input 
+                <input
                   type="checkbox"
                   ref="inStockOnlyInput"
-                  checked={this.props.inStockOnly}
+                  checked={this.props.isStockedOnly}
                   onChange={this.handleChange}
                 />
-                Only show products in stock.
+                Only show products in stock
               </p>
             </form>
           );
@@ -85,31 +79,28 @@
 
       var ProductTable = React.createClass({
         render: function() {
-          // Create a category wise hashmap of products
-          var productMap = {};
-          this.props.products.forEach(function(product) {
-            if((product.name.indexOf(this.props.filterText) === -1) || (!product.stocked && this.props.inStockOnly)) {
-              return;
+          var productsMap = new Map();
+          this.props.products
+          .filter((product) => {
+            return product.name.indexOf(this.props.filterText) !== -1 && (!this.props.isStockedOnly || product.stocked);
+          })
+          .forEach((product) => {
+            const category = product.category;
+            if (!productsMap.has(category)) {
+                productsMap.set(category, [product]);
+            } else {
+                productsMap.get(category).push(product);
             }
-            var categoryArray = product.category in productMap ? productMap[product.category] : [];
-            categoryArray.push(product);
-            productMap[product.category] = categoryArray;
-          }.bind(this));
-
+          });
           var rows = [];
-          for (var category in productMap) {
-            if (!productMap.hasOwnProperty(category)) {
-                continue;
-            }
-            rows.push(<ProductCategoryRow category={category} key={category}/>)
-            
-            productMap[category].forEach(function(product) {
-              return(
-                rows.push(<ProductRow product={product} key={product.name} />)
-              );
+          productsMap.forEach(function(products, category) {
+            rows.push(<ProductCategoryRow category={category} key={category} />);
+            products.forEach((product) => {
+              rows.push(<ProductRow product={product} key={product.name} />);
             });
-          }
-          return(
+          });
+
+          return (
             <table>
               <thead>
                 <tr>
@@ -127,7 +118,7 @@
 
       var ProductCategoryRow = React.createClass({
         render: function() {
-          return(
+          return (
             <tr>
               <th colSpan="2">{this.props.category}</th>
             </tr>
@@ -142,7 +133,7 @@
             <span style={{color: 'red'}}>
               {this.props.product.name}
             </span>;
-          return(
+          return (
             <tr>
               <td>{name}</td>
               <td>{this.props.product.price}</td>
