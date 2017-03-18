@@ -13,8 +13,18 @@ class App extends Component {
     render() {
         return (
             <div>
-                <p>Hello <span style={{color:'red'}}>{this.state.username}</span>!! How are you today??</p>
+                <Greeter username={this.state.username}></Greeter>
                 Change Name: <input type="text" value={this.state.username} onChange={this.handleChange.bind(this)}/>
+            </div>
+        );
+    }
+}
+
+class Greeter extends React.Component {
+    render() {
+        return (
+            <div>
+                <p>Hello <span style={{color:'red'}}>{this.props.username}</span>!! How are you today??</p>
             </div>
         );
     }
