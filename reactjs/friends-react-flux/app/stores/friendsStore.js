@@ -13,6 +13,10 @@ let _store = {
 function addFriend(friend) {
     _store.friends.push(friend);
 }
+function modifyPersonInfo(personInfo) {
+    _store.name = personInfo.name;
+    _store.profession = personInfo.profession;
+}
 
 let friendsStore = assign({}, EventEmitter.prototype, {
     addChangeListener: function(callBack) {
@@ -37,6 +41,10 @@ AppDispatcher.register(function(payload){
   switch(action.actionType){
     case appConstants.ADD_FRIEND:
       addFriend(action.data);
+      friendsStore.emit(CHANGE_EVENT);
+      break;
+    case appConstants.MODIFY_PERSON_INFO:
+      modifyPersonInfo(action.data);
       friendsStore.emit(CHANGE_EVENT);
       break;
     default:
