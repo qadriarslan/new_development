@@ -13,3 +13,6 @@ https://egghead.io/courses/getting-started-with-redux
 https://reactjs.co/#basic-preface
 http://redux.js.org/
 https://egghead.io/instructors/dan-abramov?order=ASC
+
+React with flux:
+https://tylermcginnis.com/react-js-tutorial-pt-3-architecting-react-js-apps-with-flux/

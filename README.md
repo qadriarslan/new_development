@@ -1,4 +1,5 @@
 # GitHub repository for all my web development tryouts.
-Have tried my hands on web components.
+Have tried my hands on web components, react with flux.
 
-AngularJS would be next in line.
+React with redux would be next in line.
+Need to learn angular as well.
