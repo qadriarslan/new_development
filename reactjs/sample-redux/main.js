@@ -1,5 +1,10 @@
-// import { createStore } from 'redux';
-import { createStore } from './redux-store';
+import { createStore } from 'redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider, connect } from 'react-redux'
+import { Counter, CounterApp } from './components'
+
+// Reducer
 const counter = (state=0, action) => {
     switch(action.type) {
         case 'INCREMENT':
@@ -11,18 +16,32 @@ const counter = (state=0, action) => {
     }
 }
 
+// Actions
+const incrementAction = {type: 'INCREMENT'}
+const decrementAction = {type: 'DECREMENT'}
+
+// Store
 const store = createStore(counter);
-const render = () => {
-    document.querySelector('#app').innerText = store.getState();
-};
 
-store.subscribe(render);
-render();
+function mapStateToProps(state) {
+    return {
+        value: state
+    }
+}
 
-document.querySelector('#increment').addEventListener('click', () => {
-    store.dispatch({type: 'INCREMENT'});
-});
+function mapDispatchToProps(dispatch) {
+    return {
+        increment: () => dispatch(incrementAction),
+        decrement: () => dispatch(decrementAction)
+    }
+}
 
-document.querySelector('#decrement').addEventListener('click', () => {
-    store.dispatch({type: 'DECREMENT'});
-});
+// Create connected container
+const App = connect(mapStateToProps, mapDispatchToProps)(Counter);
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App/>
+    </Provider>,
+    document.getElementById('app')
+);

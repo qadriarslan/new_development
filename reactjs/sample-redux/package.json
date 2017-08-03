@@ -8,23 +8,20 @@
   },
   "browserify": {
     "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ]
-        }
-      ]
+      [ "babelify", { "presets": ["es2015", "react"] } ]
     ]
   },
   "author": "qadri",
   "license": "ISC",
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
     "http-server": "^0.10.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.5",
     "redux": "^3.7.2"
   }
 }
