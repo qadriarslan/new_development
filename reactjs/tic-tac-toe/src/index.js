@@ -1,52 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux'
+import { Provider, connect } from 'react-redux'
 import './index.css';
+import { Game } from './components'
+import { calculateWinner, checkGameOver } from './game-util';
+// ========================================
 
-function Square(props) {
-    return (
-        <button className="square" onClick={props.onClick}>
-            {props.value}
-        </button>
-    );
-}
-
-class Board extends React.Component {
-    renderSquare(i) {
-        return (
-            <Square
-                value={this.props.squares[i]}
-                onClick={() => this.props.onClick(i)}
-            />
-        );
-    }
-
-    render() {
-        return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
-        );
-    }
-}
-
-class Game extends React.Component {
-    constructor() {
-        super();
-        this.state = {
+const gameReducer = (state, action) => {
+    if( state === undefined) {
+        return {
             history: [{
                 squares: Array(9).fill(null),
                 xIsNext: true
@@ -54,108 +17,55 @@ class Game extends React.Component {
             currentMove: 1
         };
     }
+    switch(action.type) {
+        case 'CELL_CLICK':
+            const history = state.history;
+            const currentMove = state.currentMove;
+            const current = history[currentMove - 1];
+            if (checkGameOver(current.squares) || calculateWinner(current.squares) || current.squares[action.cell]) {
+                return state;
+            }
+            // let newCurrent = Object.assign({}, current);
+            let newCurrent = JSON.parse(JSON.stringify(current));
+            newCurrent.squares[action.cell] = newCurrent.xIsNext ? 'X' : 'O';
+            newCurrent.xIsNext = !newCurrent.xIsNext;
 
-    handleClick(i) {
-        const history = this.state.history;
-        const currentMove = this.state.currentMove;
-        const current = history[currentMove - 1];
-        let squares = current.squares.slice();
-        let xIsNext = current.xIsNext;
-        if (checkGameOver(squares) || calculateWinner(squares) || squares[i]) {
-            return;
-        }
-        squares[i] = xIsNext ? 'X' : 'O';
-        this.setState({
-            history: history.concat({
-                squares: squares,
-                xIsNext: !xIsNext
-            }),
-            currentMove: history.length + 1
-        });
-    }
-
-    jumpTo(move) {
-        this.setState({
-            currentMove: move + 1
-        })
-    }
-
-    render() {
-        const history = this.state.history;
-        const currentMove = this.state.currentMove;
-        const current = history[currentMove - 1];
-        let squares = current.squares.slice();
-        let xIsNext = current.xIsNext;
-        const winner = calculateWinner(squares);
-
-        let moves = history.map((step, move) => {
-            let desc = move? 'Move #' + move : 'Game Start';
-            return (
-                <li key={move}>
-                    <a href='#' onClick={() => this.jumpTo(move)}>{desc}</a>
-                </li>
-            );
-        });
-
-        let status;
-        if (winner) {
-            status = 'Winner: ' + winner;
-        } else if(checkGameOver(squares)) {
-            status = 'Game Over.'
-        } else {
-            status = 'Next player: ' + (xIsNext ? 'X' : 'O')
-        }
-
-        return (
-            <div className="game">
-                <div className="game-board">
-                    <Board
-                        squares={squares}
-                        onClick={(i) => this.handleClick(i)}
-                        xIsNext={xIsNext}
-                    />
-                </div>
-                <div className="game-info">
-                    <div>{status}</div>
-                    <ol>{moves}</ol>
-                </div>
-            </div>
-        );
+            // let newState = Object.assign({}, state);
+            let newState = JSON.parse(JSON.stringify(state));
+            newState.history.push(newCurrent);
+            newState.currentMove = newState.history.length;
+            return newState;
+        case 'HISTORY_JUMP':
+            let jumpState = JSON.parse(JSON.stringify(state));
+            // let jumpState = Object.assign({}, state);
+            jumpState.currentMove = action.move + 1;
+            return jumpState;
+        default:
+            return state;
     }
 }
 
-// ========================================
+const store = createStore(gameReducer);
 
+function mapStateToProps(state) {
+    return {
+        history : state.history,
+        currentMove : state.currentMove
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        handleClick: (cell) => dispatch({type: 'CELL_CLICK', cell: cell}),
+        jumpTo: (move) => dispatch({type: 'HISTORY_JUMP', move: move})
+    };
+}
+
+const App = connect(mapStateToProps, mapDispatchToProps)(Game)
+// ========================================
 ReactDOM.render(
-    <Game />,
+    <Provider store={store}>
+        <App />
+    </Provider>,
     document.getElementById('root')
 );
-
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
-}
-
-function checkGameOver(squares) {
-    for (let i = 0; i < 9; i++) {
-        if (!squares[i]) {
-            return false;
-        }
-    }
-    return true;
-}
