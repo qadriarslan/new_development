@@ -19,27 +19,23 @@ const gameReducer = (state, action) => {
     }
     switch(action.type) {
         case 'CELL_CLICK':
-            const history = state.history;
-            const currentMove = state.currentMove;
-            const current = history[currentMove - 1];
-            if (checkGameOver(current.squares) || calculateWinner(current.squares) || current.squares[action.cell]) {
+            const currentBoard = state.history[state.currentMove - 1];
+            if (checkGameOver(currentBoard.squares) || calculateWinner(currentBoard.squares) || currentBoard.squares[action.cell]) {
                 return state;
             }
-            // let newCurrent = Object.assign({}, current);
-            let newCurrent = JSON.parse(JSON.stringify(current));
-            newCurrent.squares[action.cell] = newCurrent.xIsNext ? 'X' : 'O';
-            newCurrent.xIsNext = !newCurrent.xIsNext;
+            const cell  = action.cell;
+            const cellValue = currentBoard.xIsNext ? 'X' : 'O';
+            let newBoard = {
+                squares: [].concat(currentBoard.squares.slice(0, cell), cellValue, currentBoard.squares.slice(cell + 1)),
+                xIsNext: !currentBoard.xIsNext
+            };
 
-            // let newState = Object.assign({}, state);
-            let newState = JSON.parse(JSON.stringify(state));
-            newState.history.push(newCurrent);
-            newState.currentMove = newState.history.length;
-            return newState;
+            return {
+                history: state.history.concat(newBoard),
+                currentMove: state.history.length + 1
+            };
         case 'HISTORY_JUMP':
-            let jumpState = JSON.parse(JSON.stringify(state));
-            // let jumpState = Object.assign({}, state);
-            jumpState.currentMove = action.move + 1;
-            return jumpState;
+            return Object.assign({}, state, {currentMove: action.move + 1});
         default:
             return state;
     }
