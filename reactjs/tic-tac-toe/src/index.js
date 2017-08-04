@@ -4,34 +4,38 @@ import { createStore } from 'redux'
 import { Provider, connect } from 'react-redux'
 import './index.css';
 import { Game } from './components'
-import { calculateWinner, checkGameOver } from './game-util';
+import { calculateWinner } from './game-util';
 // ========================================
+
+const boardReducer = (state = {squares: Array(9).fill(null), xIsNext: true}, action) => {
+    switch(action.type) {
+        case 'CELL_CLICK':
+            const cell  = action.cell;
+            const cellValue = state.xIsNext ? 'X' : 'O';
+            return {
+                squares: [...state.squares.slice(0, cell), cellValue, ...state.squares.slice(cell + 1)],
+                xIsNext: !state.xIsNext
+            };
+        default:
+            return state;
+    }
+};
 
 const gameReducer = (state, action) => {
     if( state === undefined) {
         return {
-            history: [{
-                squares: Array(9).fill(null),
-                xIsNext: true
-            }],
+            history: [boardReducer(undefined, action)],
             currentMove: 1
         };
     }
     switch(action.type) {
         case 'CELL_CLICK':
             const currentBoard = state.history[state.currentMove - 1];
-            if (checkGameOver(currentBoard.squares) || calculateWinner(currentBoard.squares) || currentBoard.squares[action.cell]) {
+            if (currentBoard.squares[action.cell] || calculateWinner(currentBoard.squares)) {
                 return state;
             }
-            const cell  = action.cell;
-            const cellValue = currentBoard.xIsNext ? 'X' : 'O';
-            let newBoard = {
-                squares: [...currentBoard.squares.slice(0, cell), cellValue, ...currentBoard.squares.slice(cell + 1)],
-                xIsNext: !currentBoard.xIsNext
-            };
-
             return {
-                history: [...state.history, newBoard],
+                history: [...state.history, boardReducer(currentBoard, action)],
                 currentMove: state.history.length + 1
             };
         case 'HISTORY_JUMP':
