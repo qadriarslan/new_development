@@ -26,12 +26,12 @@ const gameReducer = (state, action) => {
             const cell  = action.cell;
             const cellValue = currentBoard.xIsNext ? 'X' : 'O';
             let newBoard = {
-                squares: [].concat(currentBoard.squares.slice(0, cell), cellValue, currentBoard.squares.slice(cell + 1)),
+                squares: [...currentBoard.squares.slice(0, cell), cellValue, ...currentBoard.squares.slice(cell + 1)],
                 xIsNext: !currentBoard.xIsNext
             };
 
             return {
-                history: state.history.concat(newBoard),
+                history: [...state.history, newBoard],
                 currentMove: state.history.length + 1
             };
         case 'HISTORY_JUMP':
