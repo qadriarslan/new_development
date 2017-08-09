@@ -23368,6 +23368,19 @@ function symbolObservablePonyfill(root) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// Actions
+var incrementAction = { type: 'INCREMENT' };
+var decrementAction = { type: 'DECREMENT' };
+
+exports.incrementAction = incrementAction;
+exports.decrementAction = decrementAction;
+
+},{}],224:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.CounterApp = exports.Counter = undefined;
@@ -23466,7 +23479,7 @@ var CounterApp = function (_React$Component2) {
 exports.Counter = Counter;
 exports.CounterApp = CounterApp;
 
-},{"react":212}],224:[function(require,module,exports){
+},{"react":212}],225:[function(require,module,exports){
 'use strict';
 
 var _redux = require('redux');
@@ -23483,7 +23496,47 @@ var _reactRedux = require('react-redux');
 
 var _components = require('./components');
 
+var _reducers = require('./reducers');
+
+var _actions = require('./actions');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Store
+var store = (0, _redux.createStore)(_reducers.counter);
+
+function mapStateToProps(state) {
+    return {
+        value: state
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        increment: function increment() {
+            return dispatch(_actions.incrementAction);
+        },
+        decrement: function decrement() {
+            return dispatch(_actions.decrementAction);
+        }
+    };
+}
+
+// Create connected container
+var App = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_components.Counter);
+
+_reactDom2.default.render(_react2.default.createElement(
+    _reactRedux.Provider,
+    { store: store },
+    _react2.default.createElement(App, null)
+), document.getElementById('app'));
+
+},{"./actions":223,"./components":224,"./reducers":226,"react":212,"react-dom":45,"react-redux":181,"redux":218}],226:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 // Reducer
 var counter = function counter() {
@@ -23500,37 +23553,6 @@ var counter = function counter() {
     }
 };
 
-// Actions
-var incrementAction = { type: 'INCREMENT' };
-var decrementAction = { type: 'DECREMENT'
+exports.counter = counter;
 
-    // Store
-};var store = (0, _redux.createStore)(counter);
-
-function mapStateToProps(state) {
-    return {
-        value: state
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        increment: function increment() {
-            return dispatch(incrementAction);
-        },
-        decrement: function decrement() {
-            return dispatch(decrementAction);
-        }
-    };
-}
-
-// Create connected container
-var App = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_components.Counter);
-
-_reactDom2.default.render(_react2.default.createElement(
-    _reactRedux.Provider,
-    { store: store },
-    _react2.default.createElement(App, null)
-), document.getElementById('app'));
-
-},{"./components":223,"react":212,"react-dom":45,"react-redux":181,"redux":218}]},{},[224]);
+},{}]},{},[225]);
