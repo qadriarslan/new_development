@@ -2,7 +2,8 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const HtmlWebPackPluginConfig = new HtmlWebPackPlugin({
   template: __dirname + '/src/index.html',
   filename: 'index.html',
-  inject: 'body'
+  inject: 'body',
+  favicon: __dirname + '/favicon.ico'
 });
 
 module.exports = {
@@ -13,6 +14,10 @@ module.exports = {
         loaders: ['react-hot-loader', 'babel-loader'],
         test: /\.js$/,
         include: __dirname + '/src'
+      },
+      {
+        test: /\.(jpe?g|png|gif|ico)$/i,
+        loader: 'file-loader?name=[name].[ext]'
       }
     ]
   },
