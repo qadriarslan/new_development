@@ -1,28 +1,8 @@
 import deepFreeze from 'deep-freeze';
-import { toggleTodo, todoReducer } from './reducer';
+import { todoReducer } from './reducer';
 import { FILTERS, ACTIONS } from './constants';
 
-test('test toggle todo method', () => {
-  const todoBefore = {
-    id: 1, 
-    text: 'MY TODO 1', 
-    completed: false
-  };
-
-  const todoAfter = {
-    id: 1, 
-    text: 'MY TODO 1', 
-    completed: true
-  };
-
-  deepFreeze(todoBefore);
-
-  expect(
-    toggleTodo(todoBefore)
-  ).toEqual(todoAfter)
-});
-
-test('add a todo', () => {
+test('Main: add a todo', () => {
   const beforeState = {
     todos: [], 
     filter: FILTERS.ALL
@@ -45,7 +25,7 @@ test('add a todo', () => {
   ).toEqual(afterState)
 });
 
-test('add another todo', () => {
+test('Main: add another todo', () => {
   const beforeState = {
     todos: [
       {id: 1, text: 'MY TODO 1', completed: false}
@@ -71,7 +51,7 @@ test('add another todo', () => {
   ).toEqual(afterState)
 });
 
-test('toggle todo', () => {
+test('Main: toggle todo', () => {
   const beforeState = {
     todos: [
       {id: 1, text: 'MY TODO 1', completed: false},
@@ -96,7 +76,7 @@ test('toggle todo', () => {
   ).toEqual(afterState)
 });
 
-test('remove todo', () => {
+test('Main: remove todo', () => {
   const beforeState = {
     todos: [
       {id: 1, text: 'MY TODO 1', completed: true},
@@ -122,7 +102,7 @@ test('remove todo', () => {
   ).toEqual(afterState)
 });
 
-test('change filter', () => { 
+test('Main: change filter', () => { 
   const beforeState = {
     todos: [
       {id: 1, text: 'MY TODO 1', completed: true},
