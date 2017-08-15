@@ -1,6 +1,6 @@
 import React from 'react';
-import { ACTIONS } from '../constants';
-import { getVisibleTodos } from '../util';
+import { ACTIONS } from '../util/constants';
+import { getVisibleTodos } from '../util/todo-util';
 import { TodoItem } from './TodoItem';
 
 class TodoList extends React.Component {

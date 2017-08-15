@@ -1,5 +1,5 @@
 import React from 'react';
-import { ACTIONS } from '../constants';
+import { ACTIONS } from '../util/constants';
 
 class AddTodo extends React.Component {
   addTodo() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FILTERS, ACTIONS } from '../constants';
+import { FILTERS, ACTIONS } from '../util/constants';
 import { AddTodo } from './AddTodo';
 import { TodoList } from './TodoList';
 import { TodoFilters } from './TodoFilters';

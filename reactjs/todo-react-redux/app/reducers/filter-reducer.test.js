@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 import { filter } from './filter-reducer';
-import { FILTERS, ACTIONS } from '../constants';
+import { FILTERS, ACTIONS } from '../util/constants';
 
 test('change filter', () => { 
   const beforeState = FILTERS.ALL;

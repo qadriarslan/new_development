@@ -1,5 +1,5 @@
 import React from 'react';
-import { FILTERS, ACTIONS } from '../constants';
+import { FILTERS, ACTIONS } from '../util/constants';
 import { FilterLink } from './FilterLink';
 
 class TodoFilters extends React.Component {

@@ -1,4 +1,4 @@
-import { FILTERS, ACTIONS } from '../constants';
+import { FILTERS, ACTIONS } from '../util/constants';
 
 const todo = (state, action) => {
   switch(action.type) {

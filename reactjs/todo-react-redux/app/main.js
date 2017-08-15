@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 
 import { TodoApp } from './components/TodoApp';
-import { FILTERS, ACTIONS } from './constants';
-import { todoReducer } from './reducer';
+import { FILTERS, ACTIONS } from './util/constants';
+import { todoReducer } from './reducers/reducer';
 
 const store = createStore(todoReducer);
 store.dispatch({type: ACTIONS.ADD_TODO, id: 1, text: 'MY TODO 1'});

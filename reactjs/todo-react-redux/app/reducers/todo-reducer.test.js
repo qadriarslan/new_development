@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 import { todos } from './todo-reducer';
-import { FILTERS, ACTIONS } from '../constants';
+import { FILTERS, ACTIONS } from '../util/constants';
 
 test('add a todo', () => {
   const beforeState = [];
