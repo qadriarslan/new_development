@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 
-import { TodoApp } from './TodoApp';
+import { TodoApp } from './components/TodoApp';
 import { FILTERS, ACTIONS } from './constants';
 import { todoReducer } from './reducer';
 

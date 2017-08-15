@@ -3,7 +3,7 @@ import { ACTIONS } from '../constants';
 import { getVisibleTodos } from '../util';
 import { TodoItem } from './TodoItem';
 
-class ListTodos extends React.Component {
+class TodoList extends React.Component {
   onTodoClick(todoId) {
     const { store } = this.props;
     store.dispatch({
@@ -38,4 +38,4 @@ class ListTodos extends React.Component {
     );
   }
 }
-export { ListTodos };
+export { TodoList };
