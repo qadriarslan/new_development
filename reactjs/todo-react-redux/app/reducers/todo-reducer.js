@@ -1,8 +1,5 @@
 import { FILTERS, ACTIONS } from '../constants';
-const todos = (
-  state = [],
-  action
-) => {
+const todos = (state = [], action) => {
   switch(action.type) {
     case ACTIONS.ADD_TODO:
       return [...state, {
