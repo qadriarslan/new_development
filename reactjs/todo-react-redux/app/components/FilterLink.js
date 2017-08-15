@@ -2,16 +2,19 @@ import React from 'react';
 
 class FilterLink extends React.Component {
   render() {
-    const {filterText, activeFilter, onClick} = this.props;
-    if(filterText === activeFilter) {
-      return <span>{filterText}</span>
+    const {filter, activeFilter, onClick, children} = this.props;
+    if(filter === activeFilter) {
+      return <span>{children}</span>
     }
     return (
       <a
         href="#"
-        onClick={() => onClick(filterText)}
+        onClick={e => {
+          e.preventDefault();
+          onClick(filter)
+        }}
       >
-        {filterText}
+        {children}
       </a>
     );
   }

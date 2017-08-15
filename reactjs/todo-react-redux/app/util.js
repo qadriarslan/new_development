@@ -1,7 +1,7 @@
 import { FILTERS } from './constants';
 
-const filterTodos = (todos, activeFilter) => {
-  switch(activeFilter) {
+const getVisibleTodos = (todos, filter) => {
+  switch(filter) {
     case FILTERS.ACTIVE:
      return todos.filter(todo => !todo.completed);
     case FILTERS.COMPLETED:
@@ -10,4 +10,4 @@ const filterTodos = (todos, activeFilter) => {
       return todos;
   }
 }
-export { filterTodos };
+export { getVisibleTodos };

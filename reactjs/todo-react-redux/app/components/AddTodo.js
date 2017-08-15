@@ -4,7 +4,8 @@ import { ACTIONS } from '../constants';
 class AddTodo extends React.Component {
   addTodo() {
     const { store } = this.props;
-    const text = this.todoText.value;
+    const text = this.todoText.value.trim();
+    if(!text) return;
     const id = Date.now();
     store.dispatch({
       type: ACTIONS.ADD_TODO, 
@@ -16,9 +17,9 @@ class AddTodo extends React.Component {
   render() {
     return (
       <div>
-        <input 
+        <input
           type="text"
-          ref={textInput => (this.todoText = textInput)}
+          ref={node => (this.todoText = node)}
         />
         <button onClick={this.addTodo.bind(this)}>
           Add Todo

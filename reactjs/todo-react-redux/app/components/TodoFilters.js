@@ -17,18 +17,28 @@ class TodoFilters extends React.Component {
     const activeFilter = store.getState().filter;
     return (
       <div>
+        Show:
+        {' '}
         <FilterLink
-          filterText={FILTERS.ALL}
+          filter={FILTERS.ALL}
           activeFilter={activeFilter}
-          onClick={this.onFilterClick.bind(this)}/>, 
+          onClick={this.onFilterClick.bind(this)}>
+          All
+        </FilterLink>
+        {', '}
         <FilterLink
-          filterText={FILTERS.COMPLETED}
+          filter={FILTERS.COMPLETED}
           activeFilter={activeFilter}
-          onClick={this.onFilterClick.bind(this)}/>, 
+          onClick={this.onFilterClick.bind(this)}>
+          Completed
+        </FilterLink>
+        {', '}
         <FilterLink
-          filterText={FILTERS.ACTIVE}
+          filter={FILTERS.ACTIVE}
           activeFilter={activeFilter}
-          onClick={this.onFilterClick.bind(this)}/>
+          onClick={this.onFilterClick.bind(this)}>
+          Active
+        </FilterLink>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ACTIONS } from '../constants';
-import { filterTodos } from '../util';
+import { getVisibleTodos } from '../util';
 import { TodoItem } from './TodoItem';
 
 class ListTodos extends React.Component {
@@ -21,21 +21,21 @@ class ListTodos extends React.Component {
   render() {
     const { store } = this.props;
     const todos = store.getState().todos;
-    const activeFilter = store.getState().filter;
-    const todosList = filterTodos(todos, activeFilter).map(todo => {
-      return (
+    const filter = store.getState().filter;
+    const visibleTodos = getVisibleTodos(todos, filter)
+      .map(todo =>
         <TodoItem 
           key={todo.id} 
           todo={todo}
           onClick={this.onTodoClick.bind(this)}
           onDelete={this.onTodoDelete.bind(this)} />
       );
-    });
+
     return (
       <ul>
-        { todosList }
+        {visibleTodos}
       </ul>
-    )
+    );
   }
 }
 export { ListTodos };
