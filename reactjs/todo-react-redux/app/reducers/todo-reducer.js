@@ -1,26 +1,34 @@
 import { FILTERS, ACTIONS } from '../constants';
-const todos = (state = [], action) => {
+
+const todo = (state, action) => {
   switch(action.type) {
     case ACTIONS.ADD_TODO:
-      return [...state, {
+      return {
         id: action.id,
         text: action.text,
         completed: false
-        }];
-    case ACTIONS.REMOVE_TODO:
-      return state.filter(todo => todo.id !== action.id ? true : false);
+      };
     case ACTIONS.TOGGLE_TODO:
-      return state.map(todo => {
-        if(todo.id === action.id) {
-          return {...todo, completed: !todo.completed};
-        } else {
-          return todo;
-        }
-      });
+      if(state.id === action.id) {
+        return {...state, completed: !state.completed};
+      }
+      return state;
     default:
       return state;
   }
-  return state;
-}
+};
+
+const todos = (state = [], action) => {
+  switch(action.type) {
+    case ACTIONS.ADD_TODO:
+      return [...state, todo(undefined, action)];
+    case ACTIONS.REMOVE_TODO:
+      return state.filter(t => t.id !== action.id ? true : false);
+    case ACTIONS.TOGGLE_TODO:
+      return state.map(t => todo(t, action));
+    default:
+      return state;
+  }
+};
 
 export { todos };
