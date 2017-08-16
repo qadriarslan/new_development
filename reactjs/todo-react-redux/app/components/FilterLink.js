@@ -1,24 +1,32 @@
 import React from 'react';
+import { ACTIONS } from '../util/constants';
+import { Link } from './Link'
 
-const FilterLink = ({
-  filter,
-  activeFilter,
-  onClick,
-  children
-}) => {
-  if(filter === activeFilter) {
-    return <span>{children}</span>
+class FilterLink extends React.Component {
+  componentDidMount() {
+    const { store } = this.props;
+    this.unsubscribe = store.subscribe(() => this.forceUpdate());
   }
-  return (
-    <a
-      href="#"
-      onClick={e => {
-        e.preventDefault();
-        onClick(filter)
-      }}
-    >
-      {children}
-    </a>
-  );
-};
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+  render() {
+    const {store, filter, children} = this.props;
+    const activeFilter = store.getState().filter;
+    return (
+      <Link
+        active={filter === activeFilter}
+        onClick={() => {
+          store.dispatch({
+            type: ACTIONS.CHANGE_FILTER,
+            filter: filter
+          })
+        }}
+      >
+        {children}
+      </Link>
+    );
+  }
+}
 export { FilterLink };

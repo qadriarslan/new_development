@@ -1,32 +1,26 @@
 import React from 'react';
-import { FILTERS, ACTIONS } from '../util/constants';
+import { FILTERS } from '../util/constants';
 import { FilterLink } from './FilterLink';
 
-const TodoFilters = ({
-  activeFilter,
-  onFilterClick
-}) => (
+const TodoFilters = ({store}) => (
   <p>
     Show:
     {' '}
     <FilterLink
-      filter={FILTERS.ALL}
-      activeFilter={activeFilter}
-      onClick={onFilterClick}>
+      store={store}
+      filter={FILTERS.ALL}>
       All
     </FilterLink>
     {', '}
     <FilterLink
-      filter={FILTERS.COMPLETED}
-      activeFilter={activeFilter}
-      onClick={onFilterClick}>
+      store={store}
+      filter={FILTERS.COMPLETED}>
       Completed
     </FilterLink>
     {', '}
     <FilterLink
-      filter={FILTERS.ACTIVE}
-      activeFilter={activeFilter}
-      onClick={onFilterClick}>
+      store={store}
+      filter={FILTERS.ACTIVE}>
       Active
     </FilterLink>
   </p>

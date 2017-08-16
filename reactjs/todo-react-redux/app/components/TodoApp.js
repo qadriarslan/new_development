@@ -22,13 +22,6 @@ const TodoApp = ({ store }) => {
     })
   );
 
-  const onFilterClick = filter => {
-    store.dispatch({
-      type: ACTIONS.CHANGE_FILTER,
-      filter: filter
-    });
-  }
-
   return (
     <div>
       <h2>Todo List</h2>
@@ -37,7 +30,7 @@ const TodoApp = ({ store }) => {
         todos={getVisibleTodos(todos, filter)}
         onTodoClick={onTodoClick}
         onTodoDelete={onTodoDelete} />
-      <TodoFilters activeFilter={filter} onFilterClick={onFilterClick}/>
+      <TodoFilters store={store}/>
     </div>
   );
 };
