@@ -11,6 +11,7 @@ class FilterLink extends React.Component {
   componentWillUnmount() {
     this.unsubscribe();
   }
+
   render() {
     const {store, filter, children} = this.props;
     const activeFilter = store.getState().filter;
