@@ -1,48 +1,33 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { toggleTodo, deleteTodo } from '../actions';
 import { FILTERS, ACTIONS } from '../util/constants';
 import { getVisibleTodos } from '../util/todo-util';
 import { TodoList } from './TodoList';
 
-class VisibleTodoList extends React.Component {
-  componentDidMount() {
-    const { store } = this.context;
-    this.unsubscribe = store.subscribe(() => this.forceUpdate());
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render() {
-    const { store } = this.context;
-    const state = store.getState();
-
-    const onTodoClick = todoId =>
-      store.dispatch({
-        type: ACTIONS.TOGGLE_TODO,
-        id: todoId
-      });
-
-    const onTodoDelete = todoId => (
-      store.dispatch({
-        type: ACTIONS.REMOVE_TODO,
-        id: todoId
-      })
-    );
-
-    return (
-      <TodoList
-        todos={getVisibleTodos(state.todos, state.filter)}
-        onTodoClick={onTodoClick}
-        onTodoDelete={onTodoDelete}
-      />
+const mapStateToProps = (state) => {
+  return {
+    todos: getVisibleTodos(
+      state.todos,
+      state.filter
     )
-  }
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTodoClick: (todoId) => {
+      dispatch(toggleTodo(todoId));
+    },
+    onTodoDelete: (todoId) => {
+      dispatch(deleteTodo(todoId));
+    }
+  };
 }
 
-VisibleTodoList.contextTypes = {
-  store: PropTypes.object
-};
+const VisibleTodoList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList);
 
 export { VisibleTodoList };
