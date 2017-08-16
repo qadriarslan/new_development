@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ACTIONS } from '../util/constants';
 
-const AddTodo = ({ store }) => {
+const AddTodo = (props, { store }) => {
   let todoTextInput;
   return (
     <div>
@@ -25,4 +26,9 @@ const AddTodo = ({ store }) => {
     </div>
   );
 }
+
+AddTodo.contextTypes = {
+  store: PropTypes.object
+}
+
 export { AddTodo };

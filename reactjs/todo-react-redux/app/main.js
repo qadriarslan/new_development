@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 
+import { Provider } from './components/Provider';
 import { TodoApp } from './components/TodoApp';
 import { FILTERS, ACTIONS } from './util/constants';
 import { todoReducer } from './reducers/reducer';
@@ -9,7 +11,9 @@ import { todoReducer } from './reducers/reducer';
 const store = createStore(todoReducer);
 
 ReactDOM.render(
-  <TodoApp store={store} />,
+  <Provider store={store}>
+    <TodoApp />
+  </Provider>,
   document.getElementById('app')
 );
 
