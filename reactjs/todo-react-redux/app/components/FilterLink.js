@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onClick: () => {
+    onClick() {
       dispatch(changeFilter(ownProps.filter));
     }
   };
