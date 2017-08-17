@@ -2,12 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import throttle from 'lodash/throttle';
 
 import { TodoApp } from './components/TodoApp';
 import { FILTERS, ACTIONS } from './util/constants';
 import { todoReducer } from './reducers/reducer';
+import { loadState, saveState } from './util/local-storage';
 
-const store = createStore(todoReducer);
+const persistedState = loadState();
+const store = createStore(todoReducer, persistedState);
+store.subscribe(throttle(() => {
+  saveState({
+    todos: store.getState().todos
+  });
+}, 1000));
 
 ReactDOM.render(
   <Provider store={store}>
@@ -15,7 +23,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 );
-
-store.dispatch({type: ACTIONS.ADD_TODO, id: 1, text: 'MY TODO 1'});
-store.dispatch({type: ACTIONS.ADD_TODO, id: 2, text: 'MY TODO 2'});
-store.dispatch({type: ACTIONS.TOGGLE_TODO, id: 2});

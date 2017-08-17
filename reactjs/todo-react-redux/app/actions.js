@@ -1,9 +1,10 @@
+import { v4 } from 'uuid';
 import { ACTIONS } from './util/constants';
 
 const addTodo = (text) => {
   return {
     type: ACTIONS.ADD_TODO,
-    id: Date.now(),
+    id: v4(),
     text
   };
 };
